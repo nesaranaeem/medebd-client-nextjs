@@ -1,6 +1,6 @@
 "use client"; // This is a client component 👈🏽
 import React, { useState, useEffect, useCallback } from "react";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
 import { apiBaseURL } from "../../utils/api/Api";
@@ -207,7 +207,7 @@ const SearchMenu = () => {
           selectedItem === "Medicine" || !searchQuery.trim() || isSearching
         }
       >
-        <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
+        <FaMagnifyingGlass className="h-6 w-6" aria-hidden="true" />
       </button>
     </div>
   );

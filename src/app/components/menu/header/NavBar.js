@@ -1,12 +1,7 @@
 "use client"; // This is a client component 👈🏽
 import React, { useState, useEffect, useRef } from "react";
 import { Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  XMarkIcon,
-  SunIcon,
-  MoonIcon,
-} from "@heroicons/react/24/outline";
+import { FaBars, FaXmark, FaSun, FaMoon } from "react-icons/fa6";
 import Link from "next/link";
 
 const NavBar = () => {
@@ -58,9 +53,9 @@ const NavBar = () => {
               className="p-2 rounded-md text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
             >
               {darkMode ? (
-                <SunIcon className="h-8 w-8" aria-hidden="true" />
+                <FaSun className="h-8 w-8" aria-hidden="true" />
               ) : (
-                <MoonIcon className="h-8 w-8" aria-hidden="true" />
+                <FaMoon className="h-8 w-8" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -88,9 +83,9 @@ const NavBar = () => {
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
             >
               {isOpen ? (
-                <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                <FaXmark className="block h-6 w-6" aria-hidden="true" />
               ) : (
-                <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                <FaBars className="block h-6 w-6" aria-hidden="true" />
               )}
             </button>
           </div>
