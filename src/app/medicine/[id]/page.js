@@ -2,9 +2,7 @@ import MedicineDetails from "@/app/components/medicine/MedicineDetails";
 import { apiBaseURL } from "@/app/components/utils/api/Api";
 
 async function getDetails(id) {
-  const response = await fetch(`${apiBaseURL}medicine/${id}`, {
-    cache: "no-store",
-  });
+  const response = await fetch(`${apiBaseURL}medicine/${id}`, {});
   const data = await response.json();
   return data;
 }
