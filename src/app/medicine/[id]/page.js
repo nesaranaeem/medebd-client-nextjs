@@ -29,8 +29,7 @@ export default async function MedicineDetailsPage({ params }) {
 
   return (
     <>
-      <h1>{details?.brand_id}</h1>
-      {/* <MedicineDetails details={details} key={details?.brand_id} /> */}
+      <MedicineDetails details={details} key={details?.brand_id} />
     </>
   );
 }
