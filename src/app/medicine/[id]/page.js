@@ -2,7 +2,11 @@ import MedicineDetails from "@/app/components/medicine/MedicineDetails";
 import { apiBaseURL } from "@/app/components/utils/api/Api";
 
 async function getDetails(id) {
-  const response = await fetch(`${apiBaseURL}medicine/${id}`, {});
+  const response = await fetch(`${apiBaseURL}medicine/${id}`, {
+    next: {
+      revalidation: 60,
+    },
+  });
   const data = await response.json();
   return data;
 }
@@ -25,7 +29,8 @@ export default async function MedicineDetailsPage({ params }) {
 
   return (
     <>
-      <MedicineDetails details={details} key={details?.brand_id} />
+      <h1>{details?.brand_id}</h1>
+      {/* <MedicineDetails details={details} key={details?.brand_id} /> */}
     </>
   );
 }
