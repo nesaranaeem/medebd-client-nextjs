@@ -29,7 +29,11 @@ export default async function MedicineDetailsPage({ params }) {
 
   return (
     <>
-      <MedicineDetails details={details} key={details?.brand_id} />
+      {details ? (
+        <MedicineDetails details={details} key={details?.brand_id} />
+      ) : (
+        <p>loading</p>
+      )}
     </>
   );
 }

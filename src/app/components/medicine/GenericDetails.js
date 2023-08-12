@@ -1,94 +1,161 @@
+import { IoMdInformationCircle } from "react-icons/io";
+
 const GenericDetails = ({ generic }) => {
   return (
-    <>
-      <div className="flex items-start p-3 w-full">
-        <div className="mr-3 text-indigo-500 text-lg mt-1" />
-        <span className="font-sans text-lg ">
-          {generic.indication && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">General Indication:</span>{" "}
-              {generic.indication}
-            </p>
-          )}
-          {generic.indication_bangla && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">সাধারণ নির্দেশিকা:</span>{" "}
-              {generic.indication_bangla}
-            </p>
-          )}
-          {generic.contra_indication && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">Contra Indication:</span>{" "}
-              {generic.contra_indication}
-            </p>
-          )}
-          {generic.contra_indication_bangla && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">প্রতিলক্ষণ:</span>{" "}
-              {generic.contra_indication_bangla}
-            </p>
-          )}
-          {generic.dose && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">Dose:</span> {generic.dose}
-              <i className="text-sm">
-                ** Take medicine as per doctor{"'"}s guidelines
-              </i>
-            </p>
-          )}
-          {generic.dose_bangla && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">ডোজ:</span> {generic.dose_bangla}
-              <i className="text-sm">
-                ** চিকিৎসকের পরামর্শ অনুযায়ী ঔষধ সেবন করুন
-              </i>
-            </p>
-          )}
-          {generic.side_effect && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">Side Effect:</span>{" "}
-              {generic.side_effect}
-            </p>
-          )}
-          {generic.side_effect_bangla && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">পার্শ্ব প্রতিক্রিয়া:</span>{" "}
-              {generic.side_effect_bangla}
-            </p>
-          )}
-          {generic.overdose && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">Overdose:</span>{" "}
-              {generic.overdose}
-            </p>
-          )}
-          {generic.precaution && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">Precaution:</span>{" "}
-              {generic.precaution}
-            </p>
-          )}
-          {generic.precaution_bangla && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">সতর্কতা:</span>{" "}
-              {generic.precaution_bangla}
-            </p>
-          )}
-          {generic.pregnancy_category && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">Pregnancy Category:</span>{" "}
-              {generic.pregnancy_category}
-            </p>
-          )}
-          {generic.pregnancy_category_bangla && (
-            <p className="block rounded-xl border border-gray-800 dark:border-white p-6 shadow-xl transition mb-2">
-              <span className="font-bold pr-1">গর্ভকালীন অবস্থা:</span>{" "}
-              {generic.pregnancy_category_bangla}
-            </p>
-          )}
-        </span>
-      </div>
-    </>
+    <div className="space-y-4">
+      {generic.indication && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">General Indication:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.indication}
+          </p>
+        </div>
+      )}
+      {generic.indication_bangla && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">সাধারণ নির্দেশিকা:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.indication_bangla}
+          </p>
+        </div>
+      )}
+      {/* Repeat similar pattern for other fields */}
+      {generic.contra_indication && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">Contra Indication:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.contra_indication}
+          </p>
+        </div>
+      )}
+      {generic.contra_indication_bangla && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">প্রতিলক্ষণ:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.contra_indication_bangla}
+          </p>
+        </div>
+      )}
+      {generic.dose && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">Dose:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.dose}
+            <br></br>
+            <i className="text-sm">
+              ** Take medicine as per doctor{"'"}s guidelines
+            </i>
+          </p>
+        </div>
+      )}
+      {generic.dose_bangla && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">ডোজ:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.dose_bangla}
+            <br></br>
+            <i className="text-sm">
+              ** চিকিৎসকের পরামর্শ অনুযায়ী ঔষধ সেবন করুন
+            </i>
+          </p>
+        </div>
+      )}
+      {generic.side_effect && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">Side Effect:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.side_effect}
+          </p>
+        </div>
+      )}
+      {generic.side_effect_bangla && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">পার্শ্ব প্রতিক্রিয়া:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.side_effect_bangla}
+          </p>
+        </div>
+      )}
+      {generic.overdose && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">Overdose:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.overdose}
+          </p>
+        </div>
+      )}
+      {generic.precaution && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">Precaution:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.precaution}
+          </p>
+        </div>
+      )}
+      {generic.precaution_bangla && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">সতর্কতা:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.precaution_bangla}
+          </p>
+        </div>
+      )}
+      {generic.pregnancy_category && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">Pregnancy Category:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.pregnancy_category}
+          </p>
+        </div>
+      )}
+      {generic.pregnancy_category_bangla && (
+        <div className="p-4 shadow-xl transition">
+          <div className="flex items-center bg-gray-600 p-2 rounded-xl">
+            <IoMdInformationCircle className="mr-3 text-white text-lg" />
+            <p className="font-bold text-white">গর্ভকালীন অবস্থা:</p>
+          </div>
+          <p className="text-base font-medium mt-2 bg-gray-400 p-4 rounded-xl text-black">
+            {generic.pregnancy_category_bangla}
+          </p>
+        </div>
+      )}
+    </div>
   );
 };
 

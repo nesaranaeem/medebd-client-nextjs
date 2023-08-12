@@ -12,11 +12,11 @@ const Footer = () => {
           {/* Footer Logo */}
           <Link href="/">
             <div className="flex items-center">
-              {/* <img
+              <img
                 className="block h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt="Logo"
-              /> */}
+              />
             </div>
           </Link>
 

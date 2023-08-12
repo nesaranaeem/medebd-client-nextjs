@@ -1,9 +1,10 @@
+"use client";
 import Footer from "./components/footer/Footer";
 import NavBar from "./components/menu/header/NavBar";
 import SearchMenu from "./components/menu/searchMenu/SearchMenu";
 import "./globals.css";
 import { Inter } from "next/font/google";
-
+import NextNProgress from "nextjs-progressbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -20,6 +21,13 @@ export default function RootLayout({ children }) {
         </div>
         <SearchMenu />
         <main className="bg-gray-700 py-5">{children}</main>
+        <NextNProgress
+          color="#29D"
+          startPosition={0.3}
+          stopDelayMs={200}
+          height={3}
+          showOnShallow={true}
+        />
         <Footer />
       </body>
     </html>
