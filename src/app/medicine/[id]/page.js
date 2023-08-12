@@ -3,9 +3,7 @@ import { apiBaseURL } from "@/app/components/utils/api/Api";
 
 async function getDetails(id) {
   const response = await fetch(`${apiBaseURL}medicine/${id}`, {
-    next: {
-      revalidation: 60,
-    },
+    cache: "no-store",
   });
   const data = await response.json();
   return data;
