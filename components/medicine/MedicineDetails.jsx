@@ -31,8 +31,8 @@ const MedicineDetails = ({ details }) => {
           },
           {
             position: 3,
-            name: `${details.brand_name} ${details.form} ${details.strength}`,
-            item: `https://medebd.com/medicine/${details.brand_name
+            name: `${details?.brand_name} ${details.form} ${details.strength}`,
+            item: `https://medebd.com/medicine/${details?.brand_name
               .toLowerCase()
               .replace(/[^a-z0-9]+/g, "-")}-${details.brand_id}`,
           },
@@ -54,12 +54,12 @@ const MedicineDetails = ({ details }) => {
               enterTo="opacity-100"
             >
               <NextSeo
-                title={`${details.brand_name} ${details.form} ${details.strength} - Indications | Doses | Pharmacology | Side Effects And More`}
-                description={`${details.brand_name} ${details.form} ${
-                  details.strength
+                title={`${details?.brand_name} ${details?.form} ${details?.strength} - Indications | Doses | Pharmacology | Side Effects And More`}
+                description={`${details?.brand_name} ${details?.form} ${
+                  details?.strength
                 }  Price is ${
-                  details.price
-                } BDT. ${details.generic_details[0].indication.slice(
+                  details?.price
+                } BDT. ${details?.generic_details[0].indication.slice(
                   0,
                   140
                 )}... `}
@@ -129,7 +129,8 @@ const MedicineDetails = ({ details }) => {
                         />
                       </svg>
                       <span className="ml-1 text-sm font-medium text-white md:ml-2 dark:text-gray-400">
-                        {details.brand_name} {details.form} {details.strength}
+                        {details?.brand_name} {details?.form}{" "}
+                        {details?.strength}
                       </span>
                     </div>
                   </li>
@@ -138,7 +139,7 @@ const MedicineDetails = ({ details }) => {
               <div className="bg-gray-800 mx-auto border border-gray-200 rounded-lg shadow p-4 max-w-md">
                 <>
                   <h1 className="text-lg md:text-2xl text-center font-bold text-white mb-2 md:mb-4">
-                    {details.brand_name} {details?.strength}
+                    {details?.brand_name} {details?.strength}
                   </h1>
                   <div className="space-y-2 md:space-y-3 text-white">
                     {/* Form */}
