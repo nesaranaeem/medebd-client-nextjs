@@ -69,7 +69,7 @@ const Statistics = () => {
 
     if (statisticsData) {
       return (
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-5 ">
+        <div className="p-2 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-5 ">
           {renderStatisticCard(
             "Medicines",
             medicineCount,
