@@ -26,7 +26,7 @@ export async function getServerSideProps({ params }) {
 
       return {
         props: {
-          details,
+          details: details || null, // Ensure that details is not undefined
         },
       };
     }
@@ -44,7 +44,8 @@ export async function getServerSideProps({ params }) {
 export default function MedicineDetailsPage({ details }) {
   return (
     <>
-      <MedicineDetails details={details} key={details.brand_id} />
+      <MedicineDetails details={details} key={details?.brand_id} />{" "}
+      {/* Use optional chaining here as well */}
     </>
   );
 }
