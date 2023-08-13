@@ -1,9 +1,8 @@
-"use client"; // This is a client component 👈🏽
 import React, { useState, useEffect, useCallback } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
-import { apiBaseURL } from "../../utils/api/Api";
+import { apiBaseURL } from "@/utils/api/Api";
 
 const SearchMenu = () => {
   const [selectedItem, setSelectedItem] = useState("Medicine");
@@ -55,7 +54,7 @@ const SearchMenu = () => {
         setIsSearching(false);
         return;
       }
-      console.log(apiBaseURL);
+
       setIsSearching(true);
       try {
         let apiUrl = "";
