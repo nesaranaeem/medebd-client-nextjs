@@ -11,7 +11,7 @@ import {
   FaArrowsSpin,
 } from "react-icons/fa6";
 import CountUp from "react-countup";
-import { apiBaseURL } from "../utils/api/Api";
+import { apiBaseURL } from "@/utils/api/Api";
 
 // Define the Statistics component
 const Statistics = () => {
