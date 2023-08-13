@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import MedicineDetails from "@/components/medicine/MedicineDetails";
 import { apiBaseURL } from "@/utils/api/Api";
+import { FaSpinner } from "react-icons/fa6";
 
 async function getDetails(id) {
   const response = await fetch(`${apiBaseURL}medicine/${id}`);
@@ -42,10 +43,32 @@ export async function getServerSideProps({ params }) {
 }
 
 export default function MedicineDetailsPage({ details }) {
+  const [isLoading, setIsLoading] = useState(details === null);
+
+  useEffect(() => {
+    if (details === null) {
+      setIsLoading(true);
+      return;
+    }
+
+    setIsLoading(false);
+  }, [details]);
+
+  if (isLoading) {
+    return (
+      <>
+        <FaSpinner className="animate-spin h-8 w-8 text-indigo-500" />
+      </>
+    );
+  }
+
   return (
     <>
-      <MedicineDetails details={details} key={details?.brand_id} />{" "}
-      {/* Use optional chaining here as well */}
+      {details ? (
+        <MedicineDetails details={details} key={details?.brand_id} />
+      ) : (
+        <FaSpinner className="animate-spin h-8 w-8 text-indigo-500" />
+      )}
     </>
   );
 }

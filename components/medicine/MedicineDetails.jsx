@@ -65,7 +65,7 @@ const MedicineDetails = ({ details }) => {
                 )}... `}
               />
               <nav
-                className="flex my-2 px-5 py-3 bg-gray-600 text-white rounded-lg mx-auto max-w-md"
+                className="flex my-2 px-5 py-3 bg-gray-600 text-white rounded-lg mx-auto w-6/12"
                 aria-label="Breadcrumb"
               >
                 <ol className="inline-flex items-center space-x-1 md:space-x-3">
