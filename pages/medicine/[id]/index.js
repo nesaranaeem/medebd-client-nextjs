@@ -44,11 +44,7 @@ export async function getServerSideProps({ params }) {
 export default function MedicineDetailsPage({ details }) {
   return (
     <>
-      {details ? (
-        <MedicineDetails details={details} key={details.brand_id} />
-      ) : (
-        <p>Loading</p>
-      )}
+      <MedicineDetails details={details} key={details.brand_id} />
     </>
   );
 }
