@@ -168,7 +168,7 @@ const SearchMenu = () => {
                 <FetchingLoader />
               ) : (
                 suggestions.map((suggestion, index) => (
-                  <Link
+                  <a
                     className="block p-2 text-white cursor-pointer hover:bg-gray-600"
                     href={suggestion.link}
                     key={index}
@@ -177,7 +177,7 @@ const SearchMenu = () => {
                     {suggestion.text.length > 30
                       ? suggestion.text.substring(0, 30) + "..."
                       : suggestion.text}
-                  </Link>
+                  </a>
                 ))
               )}
               {totalPages > 1 &&
