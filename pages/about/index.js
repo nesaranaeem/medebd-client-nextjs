@@ -59,9 +59,9 @@ const AboutPage = () => {
                   <p>
                     Thank you for visiting medebd.com, and we hope that you find
                     our directory helpful and informative. If you have any
-                    suggestions or feedback, please don't hesitate to contact
-                    us. We value your input and are always looking for ways to
-                    improve our services.
+                    suggestions or feedback, please don{"'"}t hesitate to
+                    contact us. We value your input and are always looking for
+                    ways to improve our services.
                   </p>
                 </article>
               </div>
