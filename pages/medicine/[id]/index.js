@@ -27,7 +27,7 @@ export async function getServerSideProps({ params }) {
 
       return {
         props: {
-          details: details || null, // Ensure that details is not undefined
+          details: details, // Ensure that details is not undefined
         },
       };
     }
@@ -64,11 +64,7 @@ export default function MedicineDetailsPage({ details }) {
 
   return (
     <>
-      {details ? (
-        <MedicineDetails details={details} key={details?.brand_id} />
-      ) : (
-        <FaSpinner className="animate-spin h-8 w-8 text-indigo-500" />
-      )}
+      <MedicineDetails details={details} key={details?.brand_id} />
     </>
   );
 }

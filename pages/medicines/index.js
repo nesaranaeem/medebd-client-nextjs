@@ -15,6 +15,7 @@ export async function getServerSideProps({ query }) {
       medicineData: data.details,
       currentPage: Number(page),
       totalPages: data.total_pages,
+      totalResults: data.total_count,
     },
   };
 }
@@ -23,6 +24,7 @@ export default function MedicinesPage({
   medicineData,
   currentPage,
   totalPages,
+  totalResults,
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -38,8 +40,10 @@ export default function MedicinesPage({
   return (
     <>
       <NextSeo
-        title="Explore Medicine Details"
-        description="MedeBD offers over 25k+ medicine details for free of cost"
+        title={`Medicines | ${
+          currentPage < 1 ? "" : `Page ${currentPage} of ${totalPages} |`
+        } Total ${totalResults} Medicines`}
+        description={`Browse Medicine list from the total ${totalResults} medicines.`}
       />
 
       {isLoading ? (
