@@ -1,4 +1,4 @@
 // main api endpoint
-const apiBaseURL = "https://medebd-api.cyclic.app/api/v2/";
+const apiBaseURL = "https://api.medebd.com/api/v2/";
 
 export { apiBaseURL };

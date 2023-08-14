@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 
 const Footer = () => {
-  const siteTitle = process.env.NEXT_PUBLIC_SITE_TITLE || "Your Site Title";
+  const siteTitle = process.env.NEXT_PUBLIC_SITE_TITLE || "MedeBD";
 
   return (
     <footer className="bg-gray-800 py-4 border-t-2 border-indigo-500">
@@ -26,6 +26,7 @@ const Footer = () => {
             <FooterLink title="About Us" path="/about" />
             <FooterLink title="Contact" path="/contact" />
             <FooterLink title="Privacy Policy" path="/privacy-policy" />
+            <FooterLink title="Disclaimer" path="/disclaimer" />
           </div>
         </div>
 
