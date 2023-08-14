@@ -1,45 +1,39 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import { apiBaseURL } from "@/utils/api/Api";
 import MedicineCard from "@/components/medicine/MedicineCard";
-import Link from "next/link";
 
-export async function getServerSideProps(context) {
-  const { page = 1 } = context.query;
+export async function getServerSideProps({ query }) {
+  const page = query.page || 1;
   const response = await fetch(`${apiBaseURL}medicine?page=${page}&limit=12`);
   const data = await response.json();
 
   return {
     props: {
-      medicineData: data.details || [],
-      totalCount: data.total_count || 0,
-      totalPages: data.total_pages || 0,
-      currentPage: data.current_page || 0,
+      medicineData: data.details,
+      currentPage: Number(page),
+      totalPages: data.total_pages,
     },
   };
 }
 
 export default function MedicinesPage({
   medicineData,
-  totalCount,
-  totalPages,
   currentPage,
+  totalPages,
 }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPageNumber, setCurrentPageNumber] = useState(currentPage);
+  const router = useRouter();
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
 
-  const handlePageChange = (newPageNumber) => {
-    setCurrentPageNumber(newPageNumber);
+  const handlePageChange = (newPage) => {
+    router.push(`?page=${newPage}`);
   };
-
-  const itemsPerPage = 12;
-  const indexOfLastItem = currentPageNumber * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = medicineData.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
@@ -60,71 +54,68 @@ export default function MedicinesPage({
             </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
-            {currentItems.map((item) => (
+            {medicineData.map((item) => (
               <MedicineCard key={item._id} medicine={item} />
             ))}
           </div>
-          <div className="flex justify-center py-2">
-            {currentPageNumber > 1 && (
-              <Link
-                href={`/medicines?page=${currentPageNumber - 1}`}
-                className={`mx-1 px-2 py-1 rounded-md bg-gray-300 text-black`}
-              >
-                Previous
-              </Link>
-            )}
-            {[...Array(totalPages)].map((_, index) => {
-              const pageNumber = index + 1;
-              const isCurrent = pageNumber === currentPageNumber;
-              const isFirst = pageNumber === 1;
-              const isLast = pageNumber === totalPages;
-
-              if (
-                (isFirst && currentPageNumber <= 4) ||
-                (isLast && currentPageNumber >= totalPages - 3) ||
-                (pageNumber >= currentPageNumber - 2 &&
-                  pageNumber <= currentPageNumber + 2)
-              ) {
-                return (
-                  <Link
-                    key={index}
-                    href={`/medicines?page=${pageNumber}`}
-                    className={`mx-1 px-2 py-1 rounded-md ${
-                      isCurrent
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-300 text-black"
-                    }`}
-                  >
-                    {pageNumber}
-                  </Link>
-                );
-              } else if (
-                (isFirst && currentPageNumber > 4) ||
-                (isLast && currentPageNumber < totalPages - 3)
-              ) {
-                return (
-                  <span
-                    key={index}
-                    className="mx-1 px-2 py-1 rounded-md bg-gray-300 text-black"
-                  >
-                    ...
-                  </span>
-                );
-              }
-            })}
-            {currentPageNumber < totalPages && (
-              <Link
-                href={`/medicines?page=${currentPageNumber + 1}`}
-                className={`mx-1 px-2 py-1 rounded-md bg-gray-300 text-black`}
-              >
-                Next
-              </Link>
-            )}
+          <div className="flex flex-col items-center py-4">
+            <div className="flex space-x-2">
+              {currentPage > 1 && (
+                <Link
+                  href={`?page=${currentPage - 1}`}
+                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                >
+                  &lt;&lt;
+                </Link>
+              )}
+              {currentPage > 2 && (
+                <Link
+                  href={`?page=${currentPage - 2}`}
+                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                >
+                  {currentPage - 2}
+                </Link>
+              )}
+              {currentPage > 1 && (
+                <Link
+                  href={`?page=${currentPage - 1}`}
+                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                >
+                  {currentPage - 1}
+                </Link>
+              )}
+              <button className="px-5 py-2.5 bg-blue-500 text-white font-bold rounded-lg">
+                {currentPage}
+              </button>
+              {currentPage < totalPages && (
+                <Link
+                  href={`?page=${currentPage + 1}`}
+                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                >
+                  {currentPage + 1}
+                </Link>
+              )}
+              {currentPage < totalPages - 1 && (
+                <Link
+                  href={`?page=${currentPage + 2}`}
+                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                >
+                  {currentPage + 2}
+                </Link>
+              )}
+              {currentPage < totalPages && (
+                <Link
+                  href={`?page=${currentPage + 1}`}
+                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                >
+                  &gt;&gt;
+                </Link>
+              )}
+            </div>
+            <p className="mt-2 text-white">
+              Page {currentPage} of {totalPages}
+            </p>
           </div>
-          <p className="text-center py-2 text-white">
-            Showing {indexOfFirstItem + 1} to{" "}
-            {Math.min(indexOfLastItem, totalCount)} of {totalCount} items
-          </p>
         </>
       )}
     </>
