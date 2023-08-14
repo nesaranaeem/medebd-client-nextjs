@@ -6,7 +6,7 @@ import {
   FaPrescriptionBottleMedical,
   FaBuildingCircleCheck,
   FaBox,
-  FaFlask,
+  FaLungs,
   FaMoneyBill1Wave,
   FaSuperpowers,
   FaSpinner,
@@ -150,7 +150,21 @@ const MedicineDetails = ({ details }) => {
                         {details.form}
                       </span>
                     </div>
-
+                    {/* Generic */}
+                    <div className="flex items-center border-2 border-gray-500 p-3">
+                      <FaLungs className="text-purple-400 md:text-lg" />
+                      <span className="font-bold ml-3">Generic:</span>
+                      <Link
+                        href={`/medicines/generic/${parseInt(
+                          details?.generic_details[0].generic_id
+                        )}`}
+                        className="text-blue-400 hover:text-blue-800 underline ml-1"
+                      >
+                        <span className="font-sans text-base md:text-lg">
+                          {details?.generic_details[0].generic_name}
+                        </span>
+                      </Link>
+                    </div>
                     {/* Packsize */}
                     <div className="flex items-center border-2 border-gray-500 p-3">
                       <FaBox className="text-green-400 md:text-lg" />
