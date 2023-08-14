@@ -6,7 +6,6 @@ import Link from "next/link";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -27,10 +26,6 @@ const NavBar = () => {
     { title: "Hospitals", path: "/hospitals" },
   ];
 
-  useEffect(() => {
-    // You can implement your dark mode toggle functionality here
-  }, [darkMode]);
-
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,20 +41,6 @@ const NavBar = () => {
             </div>
           </Link>
 
-          {/* Light and Dark Mode Toggle (Centered) */}
-          <div className="flex items-center justify-center flex-grow">
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-2 rounded-md text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-            >
-              {darkMode ? (
-                <FaSun className="h-8 w-8" aria-hidden="true" />
-              ) : (
-                <FaMoon className="h-8 w-8" aria-hidden="true" />
-              )}
-            </button>
-          </div>
-
           {/* Desktop Menu (Right side) */}
           <div className="hidden md:flex items-center space-x-4">
             {menuItemsList.map((item, index) =>
@@ -68,7 +49,6 @@ const NavBar = () => {
                   key={index}
                   title={item.title}
                   items={item.items}
-                  darkMode={darkMode}
                 />
               ) : (
                 <NavItem key={index} title={item.title} path={item.path} />
@@ -77,7 +57,7 @@ const NavBar = () => {
           </div>
 
           {/* Mobile Menu */}
-          <div className="-mr-2 flex md:hidden">
+          <div className="mr-2 flex md:hidden">
             <button
               onClick={toggleMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -111,7 +91,6 @@ const NavBar = () => {
                     key={index}
                     title={item.title}
                     items={item.items}
-                    darkMode={darkMode}
                   />
                 ) : (
                   <NavItemMobile
@@ -129,7 +108,7 @@ const NavBar = () => {
   );
 };
 
-const DropdownMenu = ({ title, items, darkMode }) => {
+const DropdownMenu = ({ title, items }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -149,9 +128,7 @@ const DropdownMenu = ({ title, items, darkMode }) => {
     >
       <div
         onClick={toggleMenu}
-        className={`cursor-pointer px-3 py-2 text-sm font-medium text-white rounded-md focus:outline-none hover:bg-${
-          darkMode ? "gray-700" : "gray-600"
-        }`}
+        className="cursor-pointer px-3 py-2 text-sm font-medium text-white rounded-md focus:outline-none hover:bg-gray-600"
       >
         {title}
       </div>
@@ -170,9 +147,8 @@ const DropdownMenu = ({ title, items, darkMode }) => {
         {items.map((item, index) => (
           <Link href={item.path} passHref key={index}>
             <span // Use <a> instead of <div> as the link wrapper
-              className={`block px-4 py-2 text-sm text-white hover:bg-${
-                darkMode ? "gray-700" : "gray-600"
-              }`}
+              className="block px-4 py-2 text-sm text-white hover:bg-${
+               gray-600"
             >
               {item.title}
             </span>
@@ -183,7 +159,7 @@ const DropdownMenu = ({ title, items, darkMode }) => {
   );
 };
 
-const DropdownMenuMobile = ({ title, items, darkMode }) => {
+const DropdownMenuMobile = ({ title, items }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -194,9 +170,7 @@ const DropdownMenuMobile = ({ title, items, darkMode }) => {
     <div className="relative">
       <div
         onClick={toggleMenu}
-        className={`cursor-pointer block w-full px-3 py-2 text-base font-medium text-white rounded-md focus:outline-none hover:bg-${
-          darkMode ? "gray-700" : "gray-600"
-        }`}
+        className="cursor-pointer block w-full px-3 py-2 text-base font-medium text-white rounded-md focus:outline-none hover:bg-gray-600"
       >
         {title}
       </div>
@@ -221,11 +195,7 @@ const DropdownMenuMobile = ({ title, items, darkMode }) => {
             {items.map((item, index) => (
               <Link href={item.path} passHref key={index}>
                 {/* Replace <a> with <div> here */}
-                <div
-                  className={`block px-4 py-2 text-sm text-white hover:bg-${
-                    darkMode ? "gray-700" : "gray-600"
-                  }`}
-                >
+                <div className="block px-4 py-2 text-sm text-white hover:bg-gray-600">
                   {item.title}
                 </div>
               </Link>
