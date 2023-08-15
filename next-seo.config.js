@@ -7,29 +7,15 @@ const NextSeo = {
     type: "website",
     url: "https://medebd.com",
     site_name: "MedeBD",
+    images: [
+      {
+        url: "https://medebd.com/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "MedeBD - Online Medicine Index",
+      },
+    ],
   },
-
-  // twitter: {
-  //   handle: "@nesaranaeem",
-  //   site: "@medicinebd",
-  //   cardType: "summary_large_image",
-  // },
-
-  // linkedin: {
-  //   handle: "@nesaranaeem",
-  //   site: "@medicinebd",
-  //   cardType: "summary_large_image",
-  // },
-  // github: {
-  //   handle: "@nesaranaeem",
-  //   site: "@medicinebd",
-  //   cardType: "summary_large_image",
-  // },
-  // instagram: {
-  //   handle: "@nesaranaeem",
-  //   site: "@medicinebd",
-  //   cardType: "summary_large_image",
-  // },
 };
 
 export default NextSeo;
