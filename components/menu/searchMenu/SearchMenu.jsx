@@ -51,17 +51,17 @@ const SearchMenu = () => {
       let apiUrl = "";
       const apikey = process.env.NEXT_PUBLIC_API_KEY;
       if (selectedItem === "Symptoms") {
-        apiUrl = `${apiBaseURL}medicine/search?${apikey}&symptom=${encodeURIComponent(
+        apiUrl = `${apiBaseURL}medicine/search?apikey=${apikey}&symptom=${encodeURIComponent(
           searchQuery
         )}&page=1&limit=9`;
       } else if (selectedItem === "Generics") {
-        apiUrl = `${apiBaseURL}medicine/generic?${apikey}&search=${encodeURIComponent(
+        apiUrl = `${apiBaseURL}medicine/generic?apikey=${apikey}&search=${encodeURIComponent(
           searchQuery
         )}&page=1&limit=9`;
       } else {
-        apiUrl = `${apiBaseURL}medicine?${apikey}&medicineName=${encodeURIComponent(
+        apiUrl = `${apiBaseURL}medicine?apikey=${apikey}&medicineName=${encodeURIComponent(
           searchQuery
-        )}`;
+        )}&page=1&limit=9`;
       }
 
       const response = await fetch(apiUrl);
