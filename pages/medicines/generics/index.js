@@ -2,35 +2,26 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { NextSeo } from "next-seo";
 import { apiBaseURL } from "@/utils/api/Api";
-import DoctorCard from "@/components/doctor/DoctorCard";
-import { useRouter } from "next/router";
 
 export async function getServerSideProps({ query }) {
   const page = query.page || 1;
   const apikey = process.env.NEXT_PUBLIC_API_KEY;
   const response = await fetch(
-    `${apiBaseURL}doctor?apikey=${apikey}&page=${page}&limit=12`
+    `${apiBaseURL}medicine/generic?apikey=${apikey}&page=${page}&limit=18`
   );
   const data = await response.json();
 
   return {
     props: {
-      doctorsList: data.doctorsList,
-      currentPage: Number(page),
-      totalPages: data.total_pages,
-      totalResults: data.total_count,
+      genericList: data.details || [],
+      currentPage: data.current_page || 1,
+      totalPages: data.total_pages || 1,
     },
   };
 }
 
-export default function DoctorsPage({
-  doctorsList,
-  currentPage,
-  totalPages,
-  totalResults,
-}) {
+export default function GenericsPage({ genericList, currentPage, totalPages }) {
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     setIsLoading(false);
@@ -39,10 +30,8 @@ export default function DoctorsPage({
   return (
     <>
       <NextSeo
-        title={`Doctors | ${
-          currentPage < 1 ? "" : `Page ${currentPage} of ${totalPages} |`
-        } Total ${totalResults} Doctors`}
-        description={`Browse Doctor from the total ${totalResults} doctors.`}
+        title={`Medicine Generics | Page ${currentPage} of ${totalPages}`}
+        description={`Browse Medicine Generics`}
       />
 
       {isLoading ? (
@@ -53,12 +42,22 @@ export default function DoctorsPage({
         <>
           <div className="flex justify-center py-2">
             <h1 className="text-xl text-center font-bold p-3 text-white border-2 border-gray-500">
-              Doctors List
+              Generics List
             </h1>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
-            {doctorsList?.map((item) => (
-              <DoctorCard key={item._id} doctor={item} />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-2">
+            {genericList.map((item) => (
+              <div
+                key={item._id}
+                className="border border-gray-700 rounded-lg bg-gray-800 text-white shadow-md hover:bg-gray-900 p-4"
+              >
+                <Link
+                  className="font-bold hover:text-red-400"
+                  href={`/medicines/generics/${item.generic_id}`}
+                >
+                  {item.generic_name}
+                </Link>
+              </div>
             ))}
           </div>
           <div className="flex flex-col items-center py-4">

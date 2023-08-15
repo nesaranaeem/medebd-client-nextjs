@@ -7,7 +7,8 @@ import { apiBaseURL } from "@/utils/api/Api";
 import DoctorDetails from "@/components/doctor/DoctorDetails";
 
 async function getDetails(id) {
-  const response = await fetch(`${apiBaseURL}doctor/${id}`);
+  const apikey = process.env.NEXT_PUBLIC_API_KEY;
+  const response = await fetch(`${apiBaseURL}doctor/${id}?apikey=${apikey}`);
   const data = await response.json();
   return data.doctorDetails;
 }
@@ -86,7 +87,7 @@ export default function DoctorDetailsPage({ doctorDetails }) {
           <div className="mt-4">
             <NextSeo
               title={`${doctorDetails?.title} ${doctorDetails?.name} - Details`}
-              description={`${doctorDetails?.title} ${name} ${doctorDetails?.qualification} ${doctorDetails?.designation}`}
+              description={`${doctorDetails?.title} ${doctorDetails?.name} ${doctorDetails?.qualification} ${doctorDetails?.designation}`}
             />
             <nav
               className="flex my-2 px-5 py-3 bg-gray-600 text-white rounded-lg mx-auto w-full"

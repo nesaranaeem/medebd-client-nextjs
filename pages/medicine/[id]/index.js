@@ -4,7 +4,8 @@ import { apiBaseURL } from "@/utils/api/Api";
 import { FaSpinner } from "react-icons/fa6";
 
 async function getDetails(id) {
-  const response = await fetch(`${apiBaseURL}medicine/${id}`);
+  const apikey = process.env.NEXT_PUBLIC_API_KEY;
+  const response = await fetch(`${apiBaseURL}medicine/${id}?apikey=${apikey}`);
   const data = await response.json();
   return data;
 }

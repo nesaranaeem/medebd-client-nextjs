@@ -6,7 +6,8 @@ import Link from "next/link";
 import HospitalDetails from "@/components/hospital/HospitalDetails";
 
 async function getHospitalDetails(id) {
-  const response = await fetch(`${apiBaseURL}hospital/${id}`);
+  const apikey = process.env.NEXT_PUBLIC_API_KEY;
+  const response = await fetch(`${apiBaseURL}hospital/${id}?apikey=${apikey}`);
   const data = await response.json();
   return data.hospitalDetails;
 }

@@ -1,33 +1,36 @@
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
 import { apiBaseURL } from "@/utils/api/Api";
-import DoctorCard from "@/components/doctor/DoctorCard";
-import { useRouter } from "next/router";
+import MedicineCard from "@/components/medicine/MedicineCard";
+import Link from "next/link";
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query, params }) {
   const page = query.page || 1;
+  const genericId = params.genericId; // Extract genericId from params
   const apikey = process.env.NEXT_PUBLIC_API_KEY;
   const response = await fetch(
-    `${apiBaseURL}doctor?apikey=${apikey}&page=${page}&limit=12`
+    `${apiBaseURL}medicine?apikey=${apikey}&genericId=${genericId}&page=${page}&limit=12`
   );
   const data = await response.json();
 
   return {
     props: {
-      doctorsList: data.doctorsList,
+      medicineData: data.details,
       currentPage: Number(page),
       totalPages: data.total_pages,
       totalResults: data.total_count,
+      genericId: genericId || null, // Set genericId to null if undefined
     },
   };
 }
 
-export default function DoctorsPage({
-  doctorsList,
+export default function MedicinesPage({
+  medicineData,
   currentPage,
   totalPages,
   totalResults,
+  genericId,
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -36,13 +39,17 @@ export default function DoctorsPage({
     setIsLoading(false);
   }, []);
 
+  const handlePageChange = (newPage) => {
+    router.push(`/medicines/generics/${genericId}?page=${newPage}`);
+  };
+
   return (
     <>
       <NextSeo
-        title={`Doctors | ${
+        title={`Medicine Generics | ${
           currentPage < 1 ? "" : `Page ${currentPage} of ${totalPages} |`
-        } Total ${totalResults} Doctors`}
-        description={`Browse Doctor from the total ${totalResults} doctors.`}
+        } Total ${totalResults} Medicines`}
+        description={`Browse Medicine list from the total ${totalResults} medicines.`}
       />
 
       {isLoading ? (
@@ -53,12 +60,12 @@ export default function DoctorsPage({
         <>
           <div className="flex justify-center py-2">
             <h1 className="text-xl text-center font-bold p-3 text-white border-2 border-gray-500">
-              Doctors List
+              Browse Medicines
             </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
-            {doctorsList?.map((item) => (
-              <DoctorCard key={item._id} doctor={item} />
+            {medicineData?.map((item) => (
+              <MedicineCard key={item._id} medicine={item} />
             ))}
           </div>
           <div className="flex flex-col items-center py-4">

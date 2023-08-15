@@ -155,7 +155,7 @@ const MedicineDetails = ({ details }) => {
                       <FaLungs className="text-purple-400 md:text-lg" />
                       <span className="font-bold ml-3">Generic:</span>
                       <Link
-                        href={`/medicines/generic/${parseInt(
+                        href={`/medicines/generics/${parseInt(
                           details?.generic_details[0].generic_id
                         )}`}
                         className="text-blue-400 hover:text-blue-800 underline ml-1"
@@ -178,14 +178,10 @@ const MedicineDetails = ({ details }) => {
                     <div className="flex items-center border-2 border-gray-500 p-3">
                       <FaBuildingCircleCheck className="text-blue-400 md:text-lg" />
                       <span className="font-bold ml-3">Company:</span>
-                      <Link
-                        href={`/company/${parseInt(details.company_id)}`}
-                        className="text-blue-400 hover:text-blue-800 underline ml-1"
-                      >
-                        <span className="font-sans text-base md:text-lg">
-                          {details.company_name}
-                        </span>
-                      </Link>
+
+                      <span className="font-sans text-base md:text-lg">
+                        {details.company_name}
+                      </span>
                     </div>
 
                     {/* Unit Price */}

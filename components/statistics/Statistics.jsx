@@ -23,7 +23,10 @@ const Statistics = () => {
   useEffect(() => {
     const fetchStatistics = async () => {
       try {
-        const response = await fetch(`${apiBaseURL}version/statistics`);
+        const apikey = process.env.NEXT_PUBLIC_API_KEY;
+        const response = await fetch(
+          `${apiBaseURL}version/statistics?apikey=${apikey}`
+        );
         const data = await response.json();
 
         if (data.status && data.details.length > 0) {

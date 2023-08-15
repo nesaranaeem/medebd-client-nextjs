@@ -6,7 +6,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export async function getServerSideProps() {
-  const response = await fetch(`${apiBaseURL}medicine?page=1&limit=12`);
+  const apikey = process.env.NEXT_PUBLIC_API_KEY;
+  const response = await fetch(
+    `${apiBaseURL}medicine?apikey=${apikey}&page=1&limit=12`
+  );
   const data = await response.json();
 
   return {

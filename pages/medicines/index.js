@@ -7,7 +7,10 @@ import MedicineCard from "@/components/medicine/MedicineCard";
 
 export async function getServerSideProps({ query }) {
   const page = query.page || 1;
-  const response = await fetch(`${apiBaseURL}medicine?page=${page}&limit=12`);
+  const apikey = process.env.NEXT_PUBLIC_API_KEY;
+  const response = await fetch(
+    `${apiBaseURL}medicine?apikey=${apikey}&page=${page}&limit=12`
+  );
   const data = await response.json();
 
   return {
@@ -67,15 +70,15 @@ export default function MedicinesPage({
               {currentPage > 1 && (
                 <Link
                   href={`?page=${currentPage - 1}`}
-                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                  className="px-2 py-2.5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
-                  &lt;&lt;
+                  &lt;
                 </Link>
               )}
               {currentPage > 2 && (
                 <Link
                   href={`?page=${currentPage - 2}`}
-                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                  className="px-2 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
                   {currentPage - 2}
                 </Link>
@@ -83,18 +86,18 @@ export default function MedicinesPage({
               {currentPage > 1 && (
                 <Link
                   href={`?page=${currentPage - 1}`}
-                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                  className="px-2 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
                   {currentPage - 1}
                 </Link>
               )}
-              <button className="px-5 py-2.5 bg-blue-500 text-white font-bold rounded-lg">
+              <button className="px-2 py-2.5 bg-green-500 text-white font-bold rounded-lg">
                 {currentPage}
               </button>
               {currentPage < totalPages && (
                 <Link
                   href={`?page=${currentPage + 1}`}
-                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                  className="px-2 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
                   {currentPage + 1}
                 </Link>
@@ -102,7 +105,7 @@ export default function MedicinesPage({
               {currentPage < totalPages - 1 && (
                 <Link
                   href={`?page=${currentPage + 2}`}
-                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                  className="px-2 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
                   {currentPage + 2}
                 </Link>
@@ -110,9 +113,9 @@ export default function MedicinesPage({
               {currentPage < totalPages && (
                 <Link
                   href={`?page=${currentPage + 1}`}
-                  className="px-5 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                  className="px-2 py-2.5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
-                  &gt;&gt;
+                  &gt;
                 </Link>
               )}
             </div>

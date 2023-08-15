@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { Transition } from "@headlessui/react";
+import Autosuggest from "react-autosuggest";
 import Link from "next/link";
 import { apiBaseURL } from "@/utils/api/Api";
 
@@ -10,97 +10,23 @@ const SearchMenu = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
-  const [typingTimeout, setTypingTimeout] = useState(null); // New state for typing timeout
-  const menuItems = ["Medicine", "Symptoms"];
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  const menuItems = ["Medicine", "Symptoms", "Generics"];
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
   };
 
-  const handleSearch = useCallback(() => {
-    setIsSearching(true); // Show the loader immediately
-
-    if (typingTimeout) {
-      clearTimeout(typingTimeout);
-    }
-
-    const delay = 500; // Adjust the delay as needed (in milliseconds)
-
-    // Set a new timeout before sending the API request
-    const newTypingTimeout = setTimeout(() => {
-      // Implement your search functionality here using the searchQuery state
-      setIsSearching(false); // Turn off the loader after the API call
-    }, delay);
-
-    setTypingTimeout(newTypingTimeout);
-  }, [searchQuery]);
-
   const handleSuggestionClick = () => {
     setSuggestions([]);
     setSearchQuery("");
+    console.log(suggestions);
   };
 
   const handleViewAll = () => {
     // Implement your "View All" functionality here based on the selected item and searchQuery
   };
-
-  useEffect(() => {
-    let typingTimer;
-    const debounceInterval = 500;
-
-    const fetchSuggestions = async () => {
-      setIsSearching(true); // Show loader immediately
-
-      if (!searchQuery) {
-        setSuggestions([]);
-        setIsSearching(false);
-        return;
-      }
-
-      try {
-        let apiUrl = "";
-        if (selectedItem === "Symptoms") {
-          apiUrl = `${apiBaseURL}medicine/search?symptom=${encodeURIComponent(
-            searchQuery
-          )}&page=1&limit=9`;
-        } else {
-          apiUrl = `${apiBaseURL}medicine?medicineName=${encodeURIComponent(
-            searchQuery
-          )}`;
-        }
-
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-
-        if (data.status) {
-          const suggestionsData = data.details.map((item) => {
-            const text = `${item?.brand_name} ${item?.form} ${item?.strength}`;
-            const formattedName = item?.brand_name
-              .toLowerCase()
-              .replace(/[^a-z0-9]+/g, "-");
-            const link = `/medicine/${formattedName}-${item?.brand_id}`;
-            return { text, link };
-          });
-          setSuggestions(suggestionsData);
-          setTotalPages(data.total_pages);
-        } else {
-          setSuggestions([]);
-          setTotalPages(1);
-        }
-      } catch (error) {
-        console.error("Error fetching suggestions:", error);
-      }
-      setIsSearching(false); // Turn off the loader after API call
-    };
-
-    clearTimeout(typingTimer);
-    setIsSearching(true);
-    typingTimer = setTimeout(fetchSuggestions, debounceInterval);
-
-    return () => {
-      clearTimeout(typingTimer);
-    };
-  }, [selectedItem, searchQuery]);
 
   const renderNoResultsFound = () => {
     if (!isSearching && suggestions.length === 0 && searchQuery.trim() !== "") {
@@ -113,16 +39,110 @@ const SearchMenu = () => {
     return null;
   };
 
-  const showAutoSuggestions =
-    searchQuery.trim() !== "" && suggestions.length > 0;
+  const fetchSuggestions = async () => {
+    if (!searchQuery) {
+      setSuggestions([]);
+      setIsSearching(false); // Set isSearching to false when suggestions are cleared
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      let apiUrl = "";
+      const apikey = process.env.NEXT_PUBLIC_API_KEY;
+      if (selectedItem === "Symptoms") {
+        apiUrl = `${apiBaseURL}medicine/search?${apikey}&symptom=${encodeURIComponent(
+          searchQuery
+        )}&page=1&limit=9`;
+      } else if (selectedItem === "Generics") {
+        apiUrl = `${apiBaseURL}medicine/generic?${apikey}&search=${encodeURIComponent(
+          searchQuery
+        )}&page=1&limit=9`;
+      } else {
+        apiUrl = `${apiBaseURL}medicine?${apikey}&medicineName=${encodeURIComponent(
+          searchQuery
+        )}`;
+      }
+
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      if (data.status) {
+        let suggestionsData;
+        if (selectedItem === "Generics") {
+          suggestionsData = data.details.map((item) => {
+            const text = item.generic_name;
+            const link = `/medicines/generics/${item.generic_id}`;
+            return { text, link };
+          });
+        } else {
+          suggestionsData = data.details.map((item) => {
+            const text = `${item?.brand_name} ${item?.form} ${item?.strength}`;
+            const formattedName = item?.brand_name
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-");
+            const link = `/medicine/${formattedName}-${item?.brand_id}`;
+            return { text, link };
+          });
+        }
+
+        setSuggestions(suggestionsData);
+        setTotalPages(data.total_pages);
+      } else {
+        setSuggestions([]);
+        setTotalPages(1);
+      }
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+    setIsSearching(false);
+  };
+
+  useEffect(() => {
+    let typingTimer;
+    const debounceInterval = 1000;
+
+    setIsSearching(true); // Moved inside the fetchSuggestions function
+
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(fetchSuggestions, debounceInterval);
+
+    return () => {
+      clearTimeout(typingTimer);
+    };
+  }, [selectedItem, searchQuery]);
+  const inputProps = {
+    placeholder: `Search By ${selectedItem}`,
+    value: searchQuery,
+    onChange: (event, { newValue }) => setSearchQuery(newValue),
+    className:
+      "w-full py-2 px-4 rounded-md bg-gray-700 text-white focus:outline-none",
+    onFocus: () => setIsInputFocused(true), // Set focus state to true when input is focused
+    onBlur: () => setIsInputFocused(false), // Set focus state to false when input loses focus
+  };
+
+  const renderSuggestion = (suggestion) => (
+    <Link
+      className="block p-2 text-white cursor-pointer hover:bg-gray-600"
+      href={suggestion.link}
+    >
+      {suggestion.text.length > 30
+        ? suggestion.text.substring(0, 30) + "..."
+        : suggestion.text}
+    </Link>
+  );
 
   const Spinner = () => (
     <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-white"></div>
   );
 
-  const FetchingLoader = () => (
-    <div className="p-2 text-white flex items-center">
-      Fetching suggestions... <Spinner />
+  const renderLoading = () => (
+    <div
+      className="mt-2 md:absolute z-10 bg-gray-700 rounded-md border border-gray-600 w-full md:left-0 flex flex-row items-center"
+      style={{ top: "calc(100% + 8px)" }}
+    >
+      <p className="text-white p-4">Loading</p>
+      <Spinner />
     </div>
   );
 
@@ -141,63 +161,33 @@ const SearchMenu = () => {
       </select>
 
       <div className="flex-grow mx-4 relative w-full md:w-auto">
-        <input
-          type="text"
-          className="w-full py-2 px-4 rounded-md bg-gray-700 text-white focus:outline-none"
-          placeholder={`Search By ${selectedItem}`}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-
-        <Transition
-          show={showAutoSuggestions || !!renderNoResultsFound()}
-          enter="transition-opacity duration-150"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="transition-opacity duration-75"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          {(ref) => (
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={fetchSuggestions}
+          onSuggestionsClearRequested={() => {
+            setSearchQuery(""); // Clear the search query input
+            setSuggestions([]); // Clear the suggestions
+          }}
+          getSuggestionValue={(suggestion) => suggestion.text}
+          renderSuggestion={renderSuggestion}
+          inputProps={inputProps}
+          renderSuggestionsContainer={({ containerProps, children }) => (
             <div
-              ref={ref}
-              className="mt-2 md:absolute z-10 bg-gray-700 rounded-md border border-gray-600 w-full md:left-0"
+              {...containerProps}
+              className="mt-2 md:absolute z-10 bg-gray-700 w-full md:left-0"
               style={{ top: "calc(100% + 8px)" }}
             >
-              {isSearching ? (
-                <FetchingLoader />
-              ) : (
-                suggestions.map((suggestion, index) => (
-                  <a
-                    className="block p-2 text-white cursor-pointer hover:bg-gray-600"
-                    href={suggestion.link}
-                    key={index}
-                    onClick={handleSuggestionClick}
-                  >
-                    {suggestion.text.length > 30
-                      ? suggestion.text.substring(0, 30) + "..."
-                      : suggestion.text}
-                  </a>
-                ))
-              )}
-              {totalPages > 1 &&
-                !isSearching &&
-                selectedItem !== "Medicine" && (
-                  <div
-                    className="p-2 text-white cursor-pointer hover:bg-gray-600"
-                    onClick={handleViewAll}
-                  >
-                    View All
-                  </div>
-                )}
-              {renderNoResultsFound()}
+              {children}
             </div>
           )}
-        </Transition>
+        />
+        {isInputFocused && isSearching ? renderLoading() : null}{" "}
+        {/* Show loader when input is focused */}
+        {renderNoResultsFound()}
       </div>
 
       <button
-        onClick={handleSearch}
+        onClick={handleViewAll}
         className={`p-2 rounded-md text-gray-400 ${
           selectedItem === "Medicine" || !searchQuery.trim() || isSearching
             ? "cursor-not-allowed"
