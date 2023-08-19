@@ -75,7 +75,7 @@ const Footer = () => {
             </Link>
 
             {/* Footer Links */}
-            <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mt-4 md:mt-0">
+            <div className="flex flex-col justify-center items-center md:flex-row md:space-x-4 space-y-2 md:space-y-0 mt-4 md:mt-0 text-center">
               <FooterLink title="Home" path="/" />
               <FooterLink title="About Us" path="/about" />
               <FooterLink title="Contact" path="/contact" />
