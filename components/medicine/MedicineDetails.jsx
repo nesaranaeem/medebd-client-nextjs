@@ -107,7 +107,6 @@ const MedicineDetails = ({ details }) => {
                           url: imageData?.imageURL, // Set the image URL if status is true
                           width: 300, // Adjust the width as needed
                           height: 200, // Adjust the height as needed
-                          alt: `${details?.brand_name} ${details?.strength}`,
                         },
                       ],
                     }}
@@ -116,7 +115,6 @@ const MedicineDetails = ({ details }) => {
                     url={imageData?.imageURL}
                     width={300} // Adjust the width as needed
                     height={200} // Adjust the height as needed
-                    alt={`${details?.brand_name} ${details?.strength}`}
                   />
                 </>
               ) : (
