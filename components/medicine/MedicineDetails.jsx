@@ -89,33 +89,52 @@ const MedicineDetails = ({ details }) => {
               enterFrom="opacity-0"
               enterTo="opacity-100"
             >
-              <NextSeo
-                title={`${details?.brand_name} ${details?.form} ${details?.strength} - Indications | Doses | Pharmacology | Side Effects And More`}
-                description={`${details?.brand_name} ${details?.form} ${
-                  details?.strength
-                }  Price is ${
-                  details?.price
-                } BDT. ${details?.generic_details[0].indication.slice(
-                  0,
-                  140
-                )}... `}
-                openGraph={{
-                  images: [
-                    {
-                      url: imageData?.imageURL, // Set the image URL if status is true
-                      width: 300, // Adjust the width as needed
-                      height: 200, // Adjust the height as needed
-                      alt: `${details?.brand_name} ${details?.strength}`,
-                    },
-                  ],
-                }}
-              />
-              <ImageJsonLd
-                url={imageData?.imageURL}
-                width={300} // Adjust the width as needed
-                height={200} // Adjust the height as needed
-                alt={`${details?.brand_name} ${details?.strength}`}
-              />
+              {imageData?.status ? (
+                <>
+                  <NextSeo
+                    title={`${details?.brand_name} ${details?.form} ${details?.strength} - Indications | Doses | Pharmacology | Side Effects And More`}
+                    description={`${details?.brand_name} ${details?.form} ${
+                      details?.strength
+                    }  Price is ${
+                      details?.price
+                    } BDT. ${details?.generic_details[0].indication.slice(
+                      0,
+                      140
+                    )}... `}
+                    openGraph={{
+                      images: [
+                        {
+                          url: imageData?.imageURL, // Set the image URL if status is true
+                          width: 300, // Adjust the width as needed
+                          height: 200, // Adjust the height as needed
+                          alt: `${details?.brand_name} ${details?.strength}`,
+                        },
+                      ],
+                    }}
+                  />
+                  <ImageJsonLd
+                    url={imageData?.imageURL}
+                    width={300} // Adjust the width as needed
+                    height={200} // Adjust the height as needed
+                    alt={`${details?.brand_name} ${details?.strength}`}
+                  />
+                </>
+              ) : (
+                <>
+                  <NextSeo
+                    title={`${details?.brand_name} ${details?.form} ${details?.strength} - Indications | Doses | Pharmacology | Side Effects And More`}
+                    description={`${details?.brand_name} ${details?.form} ${
+                      details?.strength
+                    }  Price is ${
+                      details?.price
+                    } BDT. ${details?.generic_details[0].indication.slice(
+                      0,
+                      140
+                    )}... `}
+                  />
+                </>
+              )}
+
               <nav
                 className="flex my-2 px-5 py-3 bg-gray-600 text-white rounded-lg mx-auto w-full md:w-6/12"
                 aria-label="Breadcrumb"
