@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
 import {
@@ -12,9 +12,44 @@ import {
   FaSpinner,
 } from "react-icons/fa6";
 import GenericDetails from "./GenericDetails";
-import { BreadcrumbJsonLd, NextSeo } from "next-seo";
+import { BreadcrumbJsonLd, ImageJsonLd, NextSeo } from "next-seo";
+import Image from "next/image";
+import { apiBaseURL } from "@/utils/api/Api";
 
 const MedicineDetails = ({ details }) => {
+  const apikey = process.env.NEXT_PUBLIC_API_KEY;
+  const [imageData, setImageData] = useState(null);
+  const [loadingImage, setLoadingImage] = useState(true); // State for loading image
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const brandNameForURL = details?.brand_name
+          .toLowerCase()
+          .replace(/\s+/g, "-") // Convert spaces to hyphens
+          .replace(/\d+/g, "") // Remove numeric characters
+          .replace(/[^a-zA-Z0-9-]/g, "") // Remove non-alphanumeric characters
+          .replace(/-+$/g, ""); // Remove trailing hyphens
+        const strengthForURL = details?.strength
+          .replace(/\s+/g, "-") // Convert spaces to hyphens
+          .replace(/([0-9]+)([a-zA-Z]+)/, "$1-$2"); // Add hyphen between number and letters
+        const response = await fetch(
+          `${apiBaseURL}image/${brandNameForURL}-${strengthForURL}?apikey=${apikey}`
+        );
+        const data = await response.json();
+        if (data.status) {
+          setImageData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
+    };
+
+    fetchImage();
+  }, [details?.brand_name, details?.strength, apikey]);
+  const handleImageLoad = () => {
+    setLoadingImage(false);
+  };
   return (
     <>
       <BreadcrumbJsonLd
@@ -45,6 +80,7 @@ const MedicineDetails = ({ details }) => {
         <div className="text-xl font-bold text-center text-white">
           Medicine Details
         </div>
+
         {details ? (
           <div className="mt-4">
             <Transition
@@ -63,6 +99,22 @@ const MedicineDetails = ({ details }) => {
                   0,
                   140
                 )}... `}
+                openGraph={{
+                  images: [
+                    {
+                      url: imageData?.imageURL, // Set the image URL if status is true
+                      width: 300, // Adjust the width as needed
+                      height: 200, // Adjust the height as needed
+                      alt: `${details?.brand_name} ${details?.strength}`,
+                    },
+                  ],
+                }}
+              />
+              <ImageJsonLd
+                url={imageData?.imageURL}
+                width={300} // Adjust the width as needed
+                height={200} // Adjust the height as needed
+                alt={`${details?.brand_name} ${details?.strength}`}
               />
               <nav
                 className="flex my-2 px-5 py-3 bg-gray-600 text-white rounded-lg mx-auto w-full md:w-6/12"
@@ -138,9 +190,32 @@ const MedicineDetails = ({ details }) => {
               </nav>
               <div className="bg-gray-800 mx-auto border border-gray-200 rounded-lg shadow p-4 max-w-md">
                 <>
-                  <h1 className="text-lg md:text-2xl text-center font-bold text-white mb-2 md:mb-4">
+                  <h1 className="text-lg md:text-2xl text-center font-bold text-white mb-2 md:mb-2">
                     {details?.brand_name} {details?.strength}
                   </h1>
+                  {/* Conditional rendering of Image */}
+                  {imageData?.status ? (
+                    <div className="relative">
+                      {loadingImage && (
+                        <div className="absolute inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50">
+                          <FaSpinner className="animate-spin h-8 w-8 text-indigo-500" />
+                        </div>
+                      )}
+                      <Image
+                        src={imageData.imageURL}
+                        alt={`${details?.brand_name} ${details?.strength}`}
+                        width={300} // Adjust the width as needed
+                        height={200} // Adjust the height as needed
+                        layout="fixed"
+                        className="mx-auto object-cover rounded-lg mb-2"
+                        onLoad={handleImageLoad} // Call the handleImageLoad function when the image loads
+                      />
+                    </div>
+                  ) : (
+                    // Show a message if the image status is false
+                    <></>
+                  )}
+
                   <div className="space-y-2 md:space-y-3 text-white">
                     {/* Form */}
                     <div className="flex items-center border-2 border-gray-500 p-3">
