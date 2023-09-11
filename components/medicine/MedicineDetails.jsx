@@ -73,6 +73,31 @@ const MedicineDetails = ({ details }) => {
           },
         ]}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "http://schema.org",
+            "@type": "Medicine",
+            name: `${details?.brand_name} ${details?.form} ${details?.strength}`,
+            description: `${details?.generic_details[0].generic_name} - ${details?.form} - ${details?.strength}`,
+            url: `https://medebd.com/medicine/${details?.brand_name
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")}-${details.brand_id}`,
+            image: imageData?.imageURL,
+            brand: {
+              "@type": "Brand",
+              name: details?.company_name,
+            },
+            offers: {
+              "@type": "Offer",
+              priceCurrency: "৳",
+              price: `${details?.price}`,
+            },
+            category: details?.generic_details[0].generic_name,
+          }),
+        }}
+      />
       <div className="flex flex-col items-center p-4 border rounded-lg bg-gray-800 text-white shadow-md w-full mx-auto">
         <div className="flex items-center justify-center h-6 w-6 bg-indigo-100 rounded-full mb-2">
           <FaInfo className="h-4 w-4 text-indigo-500" />
@@ -281,7 +306,7 @@ const MedicineDetails = ({ details }) => {
                       <FaMoneyBill1Wave className="text-pink-400 md:text-lg" />
                       <span className="font-bold ml-3">Unit Price:</span>
                       <span className="font-sans text-base md:text-lg ml-1">
-                        ৳{details.price}
+                        BDT {details.price}
                       </span>
                     </div>
 
