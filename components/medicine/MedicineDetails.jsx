@@ -92,7 +92,7 @@ const MedicineDetails = ({ details }) => {
             activeIngredient: `${details?.strength}`,
             offers: {
               "@type": "Offer",
-              priceCurrency: "৳", // Use the appropriate currency symbol here.
+              priceCurrency: "BDT", // Use the appropriate currency symbol here.
               price: `${details?.price}`, // Use the numeric price value without the currency symbol.
             },
             category: `${details?.generic_details[0]?.generic_name}`,
