@@ -36,12 +36,7 @@ export default function Document() {
          })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
           }}
         />
-        {/* Google AdSense */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7938825868377602"
-          crossOrigin="anonymous"
-        />
+        
       </Head>
       <body>
         <Main />

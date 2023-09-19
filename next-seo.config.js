@@ -10,8 +10,8 @@ const NextSeo = {
     images: [
       {
         url: "https://medebd.com/images/og-image.png",
-        width: 1200,
-        height: 630,
+        width: 300,
+        height: 200,
         alt: "MedeBD - Online Medicine Index",
       },
     ],

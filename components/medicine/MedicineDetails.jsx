@@ -14,42 +14,15 @@ import {
 import GenericDetails from "./GenericDetails";
 import { BreadcrumbJsonLd, ImageJsonLd, NextSeo } from "next-seo";
 import Image from "next/image";
-import { apiBaseURL } from "@/utils/api/Api";
 
-const MedicineDetails = ({ details }) => {
+const MedicineDetails = ({ details, imageData }) => {
   const apikey = process.env.NEXT_PUBLIC_API_KEY;
-  const [imageData, setImageData] = useState(null);
   const [loadingImage, setLoadingImage] = useState(true); // State for loading image
 
-  useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        const brandNameForURL = details?.brand_name
-          .toLowerCase()
-          .replace(/\s+/g, "-") // Convert spaces to hyphens
-          .replace(/\d+/g, "") // Remove numeric characters
-          .replace(/[^a-zA-Z0-9-]/g, "") // Remove non-alphanumeric characters
-          .replace(/-+$/g, ""); // Remove trailing hyphens
-        const strengthForURL = details?.strength
-          .replace(/\s+/g, "-") // Convert spaces to hyphens
-          .replace(/([0-9]+)([a-zA-Z]+)/, "$1-$2"); // Add hyphen between number and letters
-        const response = await fetch(
-          `${apiBaseURL}image/${brandNameForURL}-${strengthForURL}?apikey=${apikey}`
-        );
-        const data = await response.json();
-        if (data.status) {
-          setImageData(data);
-        }
-      } catch (error) {
-        console.error("Error fetching image:", error);
-      }
-    };
-
-    fetchImage();
-  }, [details?.brand_name, details?.strength, apikey]);
   const handleImageLoad = () => {
     setLoadingImage(false);
   };
+  console.log(imageData);
   return (
     <>
       <BreadcrumbJsonLd
@@ -102,11 +75,9 @@ const MedicineDetails = ({ details }) => {
                     price: `${details?.price}`,
                   },
             category: `${details?.generic_details[0]?.generic_name}`,
-            image: `${
-              imageData
-                ? imageData?.imageURL
-                : "https://res.cloudinary.com/draz5dcbl/image/upload/v1695152475/medicine.png"
-            }`,
+            image: imageData?.status
+              ? imageData?.imageURL
+              : "https://res.cloudinary.com/draz5dcbl/image/upload/v1695152475/medicine.png", // Use the imageURL if available, otherwise use the default image URL
           }),
         }}
       />
@@ -243,11 +214,13 @@ const MedicineDetails = ({ details }) => {
                   </li>
                 </ol>
               </nav>
+
               <div className="bg-gray-800 mx-auto border border-gray-200 rounded-lg shadow p-4 max-w-md">
                 <>
                   <h1 className="text-lg md:text-2xl text-center font-bold text-white mb-2 md:mb-2">
                     {details?.brand_name} {details?.strength}
                   </h1>
+
                   {/* Conditional rendering of Image */}
                   {imageData?.status ? (
                     <div className="relative">
@@ -270,7 +243,6 @@ const MedicineDetails = ({ details }) => {
                     // Show a message if the image status is false
                     <></>
                   )}
-
                   <div className="space-y-2 md:space-y-3 text-white">
                     {/* Form */}
                     <div className="flex items-center border-2 border-gray-500 p-3">
