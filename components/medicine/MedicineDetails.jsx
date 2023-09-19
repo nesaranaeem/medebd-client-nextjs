@@ -92,10 +92,15 @@ const MedicineDetails = ({ details }) => {
             activeIngredient: `${details?.strength}`,
             offers: {
               "@type": "Offer",
-              priceCurrency: "BDT", // Use the appropriate currency symbol here.
-              price: `${details?.price}`, // Use the numeric price value without the currency symbol.
+              priceCurrency: "BDT",
+              price: `${details?.price.length === 0 ? "00" : details?.price}`,
             },
             category: `${details?.generic_details[0]?.generic_name}`,
+            image: `${
+              imageData
+                ? imageData?.imageURL
+                : "https://res.cloudinary.com/draz5dcbl/image/upload/v1695152475/medicine.png"
+            }`,
           }),
         }}
       />
