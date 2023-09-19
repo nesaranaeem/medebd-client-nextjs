@@ -90,11 +90,17 @@ const MedicineDetails = ({ details }) => {
             },
             dosageForm: `${details?.form}`,
             activeIngredient: `${details?.strength}`,
-            offers: {
-              "@type": "Offer",
-              priceCurrency: "BDT",
-              price: `${details?.price.length === 0 ? "00" : details?.price}`,
-            },
+            offers:
+              details?.price !== undefined &&
+              details?.price !== null &&
+              details?.price.length === 0
+                ? null
+                : {
+                    // Check if price is available and not an empty string
+                    "@type": "Offer",
+                    priceCurrency: "BDT",
+                    price: `${details?.price}`,
+                  },
             category: `${details?.generic_details[0]?.generic_name}`,
             image: `${
               imageData
@@ -294,7 +300,9 @@ const MedicineDetails = ({ details }) => {
                       <FaBox className="text-green-400 md:text-lg" />
                       <span className="font-bold ml-3">Pack Size:</span>
                       <span className="font-sans text-base md:text-lg ml-1">
-                        {details.packsize}
+                        {details?.packsize.length === 0
+                          ? "TBA"
+                          : `${details?.packsize}`}
                       </span>
                     </div>
 
@@ -313,7 +321,9 @@ const MedicineDetails = ({ details }) => {
                       <FaMoneyBill1Wave className="text-pink-400 md:text-lg" />
                       <span className="font-bold ml-3">Unit Price:</span>
                       <span className="font-sans text-base md:text-lg ml-1">
-                        BDT {details?.price}
+                        {details?.price.length === 0
+                          ? "TBA"
+                          : `BDT ${details?.price}`}
                       </span>
                     </div>
 
