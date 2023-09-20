@@ -84,7 +84,6 @@ export default function MedicineDetailsPage({ details, imageData }) {
   const [relatedMedicines, setRelatedMedicines] = useState([]);
   const [showViewAllButton, setShowViewAllButton] = useState(false);
   const [totalRelatedMedicines, setTotalRelatedMedicines] = useState(0);
-
   useEffect(() => {
     if (details === null) {
       setIsLoading(true);
@@ -93,7 +92,7 @@ export default function MedicineDetailsPage({ details, imageData }) {
 
     // Fetch related medicines here
     async function fetchRelatedMedicines() {
-      setIsLoading(true);
+      setIsLoading(true); // Set loading to true at the beginning of the fetch
 
       try {
         const apikey = process.env.NEXT_PUBLIC_API_KEY;
@@ -106,13 +105,13 @@ export default function MedicineDetailsPage({ details, imageData }) {
         }
 
         const data = await response.json();
-        setRelatedMedicines(data.details.slice(1));
+        setRelatedMedicines(data.details.slice(1)); // Remove the first item
         setShowViewAllButton(data.total_pages > 1);
         setTotalRelatedMedicines(data.total_count);
       } catch (error) {
         console.error("Error fetching related medicines:", error);
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // Set loading to false whether the request succeeds or fails
       }
     }
 
@@ -135,7 +134,7 @@ export default function MedicineDetailsPage({ details, imageData }) {
         <h3 className="text-lg text-center font-bold p-2 text-white border-2 mb-2 border-gray-500">
           Related Medicines
         </h3>
-        {totalRelatedMedicines > 0 ? (
+        {totalRelatedMedicines > 0 && (
           <p className="text-white text-center my-2">
             Total
             <span className="ml-2 bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
@@ -143,8 +142,6 @@ export default function MedicineDetailsPage({ details, imageData }) {
             </span>
             Medicines Found
           </p>
-        ) : (
-          <p className="text-white text-center">No related medicines found.</p>
         )}
 
         {isLoading ? (
@@ -154,14 +151,24 @@ export default function MedicineDetailsPage({ details, imageData }) {
           </div>
         ) : (
           <>
-            {totalRelatedMedicines > 0 && (
+            {relatedMedicines.length === 0 ? (
+              <p className="text-white text-center">
+                {relatedMedicines.total_count === 0
+                  ? "No related medicines found."
+                  : "Related medicines found, but not displayed."}
+              </p>
+            ) : (
               <>
+                {/* Display related medicines fetched from the API */}
                 {relatedMedicines.map((medicine) => (
-                  <div className="my-2" key={medicine._id}>
-                    <MedicineCard medicine={medicine} />
-                  </div>
+                  <>
+                    <div className="my-2">
+                      <MedicineCard key={medicine._id} medicine={medicine} />
+                    </div>
+                  </>
                 ))}
 
+                {/* Show View All button if total_pages is greater than 1 */}
                 {showViewAllButton && (
                   <Link
                     href={`/medicines/generics/${details.generic_id}`}
