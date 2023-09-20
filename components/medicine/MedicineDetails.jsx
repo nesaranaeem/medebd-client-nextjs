@@ -53,7 +53,11 @@ const MedicineDetails = ({ details, imageData }) => {
             "@context": "http://schema.org",
             "@type": "Drug",
             name: `${details?.brand_name}`,
-            description: `${details?.generic_details[0].indication}`,
+            description: `${details?.brand_name} ${details?.form} ${
+              details?.strength
+            }  Price is ${
+              details?.price
+            } BDT. ${details?.generic_details[0].indication.slice(0, 140)}`,
             url: `https://medebd.com/medicine/${details?.brand_name
               .toLowerCase()
               .replace(/[^a-z0-9]+/g, "-")}-${details.brand_id}`,
@@ -109,7 +113,7 @@ const MedicineDetails = ({ details, imageData }) => {
                     } BDT. ${details?.generic_details[0].indication.slice(
                       0,
                       140
-                    )}... `}
+                    )}`}
                     openGraph={{
                       images: [
                         {
@@ -137,7 +141,7 @@ const MedicineDetails = ({ details, imageData }) => {
                     } BDT. ${details?.generic_details[0].indication.slice(
                       0,
                       140
-                    )}... `}
+                    )}`}
                   />
                 </>
               )}
