@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FaMagnifyingGlass } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 import Autosuggest from "react-autosuggest";
 import Link from "next/link";
 import { apiBaseURL } from "@/utils/api/Api";
@@ -21,7 +21,6 @@ const SearchMenu = () => {
   const handleSuggestionClick = () => {
     setSuggestions([]);
     setSearchQuery("");
-    console.log(suggestions);
   };
 
   const handleViewAll = () => {
@@ -39,10 +38,10 @@ const SearchMenu = () => {
     return null;
   };
 
-  const fetchSuggestions = async () => {
+  const fetchSuggestions = useCallback(async () => {
     if (!searchQuery) {
       setSuggestions([]);
-      setIsSearching(false); // Set isSearching to false when suggestions are cleared
+      setIsSearching(false);
       return;
     }
 
@@ -50,6 +49,7 @@ const SearchMenu = () => {
     try {
       let apiUrl = "";
       const apikey = process.env.NEXT_PUBLIC_API_KEY;
+
       if (selectedItem === "Symptoms") {
         apiUrl = `${apiBaseURL}medicine/search?apikey=${apikey}&symptom=${encodeURIComponent(
           searchQuery
@@ -96,35 +96,36 @@ const SearchMenu = () => {
       console.error("Error fetching suggestions:", error);
     }
     setIsSearching(false);
-  };
+  }, [selectedItem, searchQuery]);
 
   useEffect(() => {
     let typingTimer;
     const debounceInterval = 1000;
 
-    setIsSearching(true); // Moved inside the fetchSuggestions function
-
+    setIsSearching(true);
     clearTimeout(typingTimer);
     typingTimer = setTimeout(fetchSuggestions, debounceInterval);
 
     return () => {
       clearTimeout(typingTimer);
     };
-  }, [selectedItem, searchQuery]);
+  }, [selectedItem, searchQuery, fetchSuggestions]);
+
   const inputProps = {
     placeholder: `Search By ${selectedItem}`,
     value: searchQuery,
     onChange: (event, { newValue }) => setSearchQuery(newValue),
     className:
       "w-full py-2 px-4 rounded-md bg-gray-700 text-white focus:outline-none",
-    onFocus: () => setIsInputFocused(true), // Set focus state to true when input is focused
-    onBlur: () => setIsInputFocused(false), // Set focus state to false when input loses focus
+    onFocus: () => setIsInputFocused(true),
+    onBlur: () => setIsInputFocused(false),
   };
 
   const renderSuggestion = (suggestion) => (
     <Link
       className="block p-2 text-white cursor-pointer hover:bg-gray-600"
       href={suggestion.link}
+      onClick={handleSuggestionClick}
     >
       {suggestion.text.length > 30
         ? suggestion.text.substring(0, 30) + "..."
@@ -163,10 +164,10 @@ const SearchMenu = () => {
       <div className="flex-grow mx-4 relative w-full md:w-auto">
         <Autosuggest
           suggestions={suggestions}
-          onSuggestionsFetchRequested={fetchSuggestions}
+          onSuggestionsFetchRequested={() => {}}
           onSuggestionsClearRequested={() => {
-            setSearchQuery(""); // Clear the search query input
-            setSuggestions([]); // Clear the suggestions
+            setSearchQuery("");
+            setSuggestions([]);
           }}
           getSuggestionValue={(suggestion) => suggestion.text}
           renderSuggestion={renderSuggestion}
@@ -177,12 +178,10 @@ const SearchMenu = () => {
               className="mt-2 md:absolute z-10 bg-gray-700 w-full md:left-0"
               style={{ top: "calc(100% + 8px)" }}
             >
-              {children}
+              {isSearching ? renderLoading() : children}
             </div>
           )}
         />
-        {isInputFocused && isSearching ? renderLoading() : null}{" "}
-        {/* Show loader when input is focused */}
         {renderNoResultsFound()}
       </div>
 
@@ -197,7 +196,7 @@ const SearchMenu = () => {
           selectedItem === "Medicine" || !searchQuery.trim() || isSearching
         }
       >
-        <FaMagnifyingGlass className="h-6 w-6" aria-hidden="true" />
+        <FaSearch className="h-6 w-6" aria-hidden="true" />
       </button>
     </div>
   );

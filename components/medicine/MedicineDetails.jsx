@@ -22,7 +22,7 @@ const MedicineDetails = ({ details, imageData }) => {
   const handleImageLoad = () => {
     setLoadingImage(false);
   };
-  console.log(imageData);
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -211,8 +211,9 @@ const MedicineDetails = ({ details, imageData }) => {
                         />
                       </svg>
                       <span className="ml-1 text-sm font-medium text-white md:ml-2 dark:text-gray-400">
-                        {details?.brand_name} {details?.form}{" "}
-                        {details?.strength}
+                        {details?.strength
+                          ? `${details?.brand_name} ${details?.form} - ${details?.strength}`
+                          : `${details?.brand_name} ${details?.form}`}
                       </span>
                     </div>
                   </li>
@@ -222,7 +223,9 @@ const MedicineDetails = ({ details, imageData }) => {
               <div className="bg-gray-800 mx-auto border border-gray-200 rounded-lg shadow p-4 max-w-md">
                 <>
                   <h1 className="text-lg md:text-2xl text-center font-bold text-white mb-2 md:mb-2">
-                    {details?.brand_name} {details?.strength}
+                    {details?.strength
+                      ? `${details?.brand_name} ${details?.form} - ${details?.strength}`
+                      : `${details?.brand_name} ${details?.form}`}
                   </h1>
 
                   {/* Conditional rendering of Image */}
