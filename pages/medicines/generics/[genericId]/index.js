@@ -72,7 +72,9 @@ export default function MedicinesPage({
             <div className="flex space-x-2">
               {currentPage > 1 && (
                 <Link
-                  href={`?page=${currentPage - 1}`}
+                  href={`/medicines/generics/${genericId}?page=${
+                    currentPage - 1
+                  }`}
                   className="px-2 py-2.5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
                   &lt;
@@ -80,7 +82,9 @@ export default function MedicinesPage({
               )}
               {currentPage > 2 && (
                 <Link
-                  href={`?page=${currentPage - 2}`}
+                  href={`/medicines/generics/${genericId}?page=${
+                    currentPage - 2
+                  }`}
                   className="px-2 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
                   {currentPage - 2}
@@ -88,18 +92,25 @@ export default function MedicinesPage({
               )}
               {currentPage > 1 && (
                 <Link
-                  href={`?page=${currentPage - 1}`}
+                  href={`/medicines/generics/${genericId}?page=${
+                    currentPage - 1
+                  }`}
                   className="px-2 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
                   {currentPage - 1}
                 </Link>
               )}
-              <button className="px-2 py-2.5 bg-green-500 text-white font-bold rounded-lg">
+              <button
+                className="px-2 py-2.5 bg-green-500 text-white font-bold rounded-lg"
+                disabled
+              >
                 {currentPage}
               </button>
               {currentPage < totalPages && (
                 <Link
-                  href={`?page=${currentPage + 1}`}
+                  href={`/medicines/generics/${genericId}?page=${
+                    currentPage + 1
+                  }`}
                   className="px-2 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
                   {currentPage + 1}
@@ -107,15 +118,19 @@ export default function MedicinesPage({
               )}
               {currentPage < totalPages - 1 && (
                 <Link
-                  href={`?page=${currentPage + 2}`}
-                  className="px-2 py-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
+                  href={`/medicines/generics/${genericId}?page=${
+                    currentPage + 2
+                  }`}
+                  className="px-2 py-2.5 text-white bg-blue-700 hover.bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
                   {currentPage + 2}
                 </Link>
               )}
               {currentPage < totalPages && (
                 <Link
-                  href={`?page=${currentPage + 1}`}
+                  href={`/medicines/generics/${genericId}?page=${
+                    currentPage + 1
+                  }`}
                   className="px-2 py-2.5 text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg"
                 >
                   &gt;
