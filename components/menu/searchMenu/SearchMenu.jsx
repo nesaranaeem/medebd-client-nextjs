@@ -147,6 +147,21 @@ const SearchMenu = () => {
     </div>
   );
 
+  const renderSuggestionsContainer = ({ containerProps, children }) => {
+    return (
+      <div
+        {...containerProps}
+        className="mt-2 md:absolute z-10 bg-gray-700 w-full md:left-0"
+        style={{
+          top: "calc(100% + 8px)",
+          display: searchQuery.trim() === "" ? "none" : "block", // Hide when input is empty
+        }}
+      >
+        {isSearching ? renderLoading() : children}
+      </div>
+    );
+  };
+
   return (
     <div className="border-t-2 border-indigo-500 bg-gray-800 flex flex-col md:flex-row items-center py-2 px-4 relative">
       <select
@@ -172,15 +187,7 @@ const SearchMenu = () => {
           getSuggestionValue={(suggestion) => suggestion.text}
           renderSuggestion={renderSuggestion}
           inputProps={inputProps}
-          renderSuggestionsContainer={({ containerProps, children }) => (
-            <div
-              {...containerProps}
-              className="mt-2 md:absolute z-10 bg-gray-700 w-full md:left-0"
-              style={{ top: "calc(100% + 8px)" }}
-            >
-              {isSearching ? renderLoading() : children}
-            </div>
-          )}
+          renderSuggestionsContainer={renderSuggestionsContainer}
         />
         {renderNoResultsFound()}
       </div>

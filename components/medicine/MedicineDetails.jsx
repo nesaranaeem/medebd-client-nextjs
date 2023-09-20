@@ -39,10 +39,10 @@ const MedicineDetails = ({ details, imageData }) => {
           },
           {
             position: 3,
-            name: `${details?.brand_name} ${details.form} ${details.strength}`,
+            name: `${details?.brand_name} ${details?.form} ${details?.strength}`,
             item: `https://medebd.com/medicine/${details?.brand_name
               .toLowerCase()
-              .replace(/[^a-z0-9]+/g, "-")}-${details.brand_id}`,
+              .replace(/[^a-z0-9]+/g, "-")}-${details?.brand_id}`,
           },
         ]}
       />
@@ -60,7 +60,7 @@ const MedicineDetails = ({ details, imageData }) => {
             } BDT. ${details?.generic_details[0].indication.slice(0, 140)}`,
             url: `https://medebd.com/medicine/${details?.brand_name
               .toLowerCase()
-              .replace(/[^a-z0-9]+/g, "-")}-${details.brand_id}`,
+              .replace(/[^a-z0-9]+/g, "-")}-${details?.brand_id}`,
             brand: {
               "@type": "Brand",
               name: `${details?.company_name}`,
@@ -220,7 +220,7 @@ const MedicineDetails = ({ details, imageData }) => {
                 </ol>
               </nav>
 
-              <div className="bg-gray-800 mx-auto border border-gray-200 rounded-lg shadow p-4 max-w-md">
+              <div className="bg-gray-800 mx-auto  shadow p-4 md:w-4/5">
                 <>
                   <h1 className="text-lg md:text-2xl text-center font-bold text-white mb-2 md:mb-2">
                     {details?.strength
@@ -318,7 +318,7 @@ const MedicineDetails = ({ details, imageData }) => {
                 </>
               </div>
             </Transition>
-            <div className="bg-gray-800 mx-auto border border-gray-200 rounded-lg shadow p-4 my-3 w-full">
+            <div className="bg-gray-800 mx-auto  shadow p-4 my-3 w-full">
               <div className="space-y-2 md:space-y-3 text-white">
                 {details.generic_details.map((generic, index) => (
                   <GenericDetails generic={generic} key={index} />
