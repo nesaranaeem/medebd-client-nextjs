@@ -1,7 +1,8 @@
-/** @type {import('next').NextConfig} */
+// next.config.js
 const nextConfig = {
-  experimental: {
-    appDir: true,
+  reactStrictMode: true,
+  images: {
+    domains: ["res.cloudinary.com"], // Add your image domain(s) here
   },
 };
 
