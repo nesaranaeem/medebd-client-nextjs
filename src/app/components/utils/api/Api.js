@@ -1,4 +1,4 @@
 // main api endpoint
-const apiBaseURL = "https://api.medebd.com/api/v2/";
+const apiBaseURL = "https://medebd-server.vercel.app/api/v2/";
 
 export { apiBaseURL };
